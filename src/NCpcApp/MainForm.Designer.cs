@@ -32,8 +32,8 @@ namespace CpcLauncher
             tbGameDetails = new TextBox();
             lvGameList = new ListView();
             columnHeaderName = new ColumnHeader();
-            columnHeaderType = new ColumnHeader();
-            columnHeaderTags = new ColumnHeader();
+            columnHeaderDirectory = new ColumnHeader();
+            columnHeaderExtension = new ColumnHeader();
             lblListHeader = new Label();
             lblGameDetails = new Label();
             btnLaunch = new Button();
@@ -49,7 +49,7 @@ namespace CpcLauncher
             pbxGameCover.Location = new Point(357, 2);
             pbxGameCover.Margin = new Padding(2);
             pbxGameCover.Name = "pbxGameCover";
-            pbxGameCover.Size = new Size(448, 628);
+            pbxGameCover.Size = new Size(640, 480);
             pbxGameCover.TabIndex = 0;
             pbxGameCover.TabStop = false;
             // 
@@ -65,7 +65,7 @@ namespace CpcLauncher
             // 
             // lvGameList
             // 
-            lvGameList.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderType, columnHeaderTags });
+            lvGameList.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderDirectory, columnHeaderExtension });
             lvGameList.GridLines = true;
             lvGameList.Location = new Point(21, 78);
             lvGameList.Margin = new Padding(2);
@@ -84,14 +84,14 @@ namespace CpcLauncher
             columnHeaderName.Text = "Name";
             columnHeaderName.Width = 152;
             // 
-            // columnHeaderType
+            // columnHeaderDirectory
             // 
-            columnHeaderType.Text = "Type";
+            columnHeaderDirectory.Text = "Directory";
             // 
-            // columnHeaderTags
+            // columnHeaderExtension
             // 
-            columnHeaderTags.Text = "Tags";
-            columnHeaderTags.Width = 111;
+            columnHeaderExtension.Text = "Extension";
+            columnHeaderExtension.Width = 111;
             // 
             // lblListHeader
             // 
@@ -160,7 +160,7 @@ namespace CpcLauncher
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(819, 642);
+            ClientSize = new Size(1004, 642);
             Controls.Add(cbFullscreen);
             Controls.Add(btnAbout);
             Controls.Add(btnReload);
@@ -183,9 +183,9 @@ namespace CpcLauncher
 
         private ColumnHeader columnHeaderName;
 
-        private ColumnHeader columnHeaderType;
+        private ColumnHeader columnHeaderDirectory;
 
-        private ColumnHeader columnHeaderTags;
+        private ColumnHeader columnHeaderExtension;
 
         private TextBox tbGameDetails;
 
