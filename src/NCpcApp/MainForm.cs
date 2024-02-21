@@ -107,7 +107,7 @@ namespace CpcLauncher
         {
             // CPCEC
             var emulatorPath = Properties.Settings.Default.EmulatorPath;
-            string emulatorExe = Path.Combine(emulatorPath, "CPCEC.EXE");
+            string emulatorExe = Path.GetFullPath(Path.Combine(emulatorPath, "CPCEC.EXE"));
 
             var selectedItem = lvGameList.Items[lvGameList.SelectedIndices[0]];
             string gameName = selectedItem.Text;
@@ -121,7 +121,7 @@ namespace CpcLauncher
 #if NET6_0_OR_GREATER
                 psi.ArgumentList.Add(gamePath);
 #else
-                psi.Arguments = gamePath;
+                psi.Arguments = $"\"{gamePath}\"";
 #endif
                 psi.WorkingDirectory = emulatorPath;
             }
@@ -136,7 +136,7 @@ namespace CpcLauncher
 #if NET6_0_OR_GREATER
                 psi.ArgumentList.Add(firstFile);
 #else
-                psi.Arguments = firstFile;
+                psi.Arguments = $"\"{firstFile}\"";
 #endif
                 psi.WorkingDirectory = emulatorPath;
             }
