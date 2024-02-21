@@ -25,7 +25,7 @@ namespace CpcLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("E:\\src\\ferarias\\nCpc\\resources\\emulador")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\emu\\EmulationStation\\.emulationstation\\systems\\cpcec")]
         public string EmulatorPath {
             get {
                 return ((string)(this["EmulatorPath"]));
@@ -34,7 +34,7 @@ namespace CpcLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("E:\\src\\ferarias\\nCpc\\resources\\capturas")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string CoversPath {
             get {
                 return ((string)(this["CoversPath"]));
@@ -43,7 +43,7 @@ namespace CpcLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("E:\\src\\ferarias\\nCpc\\resources\\emulador\\DISC")]
+        [global::System.Configuration.DefaultSettingValueAttribute("V:\\roms\\amstradcpc")]
         public string DisksPath {
             get {
                 return ((string)(this["DisksPath"]));

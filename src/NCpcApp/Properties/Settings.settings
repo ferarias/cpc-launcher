@@ -3,13 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="EmulatorPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">E:\src\ferarias\nCpc\resources\emulador</Value>
+      <Value Profile="(Default)">D:\emu\EmulationStation\.emulationstation\systems\cpcec</Value>
     </Setting>
     <Setting Name="CoversPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">E:\src\ferarias\nCpc\resources\capturas</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DisksPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">E:\src\ferarias\nCpc\resources\emulador\DISC</Value>
+      <Value Profile="(Default)">V:\roms\amstradcpc</Value>
     </Setting>
   </Settings>
 </SettingsFile>

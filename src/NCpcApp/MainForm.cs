@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO.Compression;
+using System.Xml.Serialization;
 
 using CpcLauncher.Dto;
 
@@ -7,6 +8,8 @@ namespace CpcLauncher
 {
     public partial class MainForm : Form
     {
+        private GameList? _gamelist;
+
         public MainForm()
         {
             InitializeComponent();
@@ -55,6 +58,16 @@ namespace CpcLauncher
         {
             var disksPath = Properties.Settings.Default.DisksPath;
 
+            // Read the gamelist.xml
+            var gameListFile = Path.Combine(disksPath, "gamelist.xml");
+            if (File.Exists(gameListFile))
+            {
+                var serializer = new XmlSerializer(typeof(GameList));
+                using var reader = new StreamReader(gameListFile);
+                _gamelist = serializer.Deserialize(reader) as GameList;
+            }
+
+            // Read the actual files
             var fileList = new CpcFiles();
             fileList.ReadFromFile(disksPath);
             if (fileList.Count == 0)
@@ -72,6 +85,46 @@ namespace CpcLauncher
                 lvGameList.Items.Add(listViewItem);
             }
             lvGameList.SelectedIndices.Add(0);
+        }
+
+        private void RenderGameDetails()
+        {
+            var disksPath = Properties.Settings.Default.DisksPath;
+
+            if (lvGameList.SelectedIndices.Count > 0)
+            {
+                string game = lvGameList.Items[lvGameList.SelectedIndices[0]].Text;
+
+                tbGameDetails.Clear();
+                pbxGameCover.Image = null;
+
+                string imagePath = string.Empty;
+                var gameListEntry = _gamelist?.Games.Find(g => g.Name.Equals(game, StringComparison.CurrentCultureIgnoreCase));
+                if (gameListEntry != null)
+                {
+                    imagePath = gameListEntry.Image;
+                    if (!File.Exists(imagePath))
+                    {
+                        imagePath = Path.Combine(disksPath, gameListEntry.Image);
+                    }
+                    if (File.Exists(imagePath))
+                    {
+                        tbGameDetails.Lines = gameListEntry.Description?.Split('\n');
+                    }
+                }
+                else
+                {
+                    var coversPath = Properties.Settings.Default.CoversPath;
+                    imagePath = Path.Combine(coversPath, $"{game}.png");
+                    tbGameDetails.Lines = ["N/A"];
+                }
+
+                if (File.Exists(imagePath))
+                {
+                    pbxGameCover.Load(imagePath);
+                }
+            }
+            lvGameList.Focus();
         }
 
         private void LaunchGame()
@@ -108,30 +161,6 @@ namespace CpcLauncher
             var process = Process.Start(psi);
             process?.WaitForExit();
         }
-
-        private void RenderGameDetails()
-        {
-            var coversPath = Properties.Settings.Default.CoversPath;
-
-            if (lvGameList.SelectedIndices.Count > 0)
-            {
-                string text = lvGameList.Items[lvGameList.SelectedIndices[0]].Text;
-                string imagePath = Path.Combine(coversPath, $"{text}.png");
-                if (File.Exists(imagePath))
-                {
-                    pbxGameCover.Load(imagePath);
-                }
-                else
-                {
-                    pbxGameCover.Image = null;
-                }
-                tbGameDetails.Clear();
-                tbGameDetails.Lines = ["TO DO:"];
-            }
-            lvGameList.Focus();
-        }
-
-
 
 
     }
