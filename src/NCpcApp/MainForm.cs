@@ -65,7 +65,7 @@ namespace CpcLauncher
                     imagePath = gameListEntry.Image;
                     marqueePath = gameListEntry.Marquee;
                     tbGameDetails.Lines = gameListEntry.Description?.Split('\n');
-                    textBoxReleaseDate.Text = !string.IsNullOrWhiteSpace(gameListEntry.Releasedate) 
+                    textBoxReleaseDate.Text = !string.IsNullOrWhiteSpace(gameListEntry.Releasedate)
                         ? DateTime.ParseExact(gameListEntry.Releasedate, "yyyyMMddTHHmmss", null).Year.ToString()
                         : "N/A";
                     textBoxDeveloper.Text = gameListEntry.Developer;
@@ -118,7 +118,11 @@ namespace CpcLauncher
 
             if (gameExtension.Equals(Constants.CpcDiskExtension, StringComparison.InvariantCultureIgnoreCase))
             {
+#if NET6_0_OR_GREATER
                 psi.ArgumentList.Add(gamePath);
+#else
+                psi.Arguments = gamePath;
+#endif
                 psi.WorkingDirectory = emulatorPath;
             }
 
@@ -129,7 +133,11 @@ namespace CpcLauncher
                 var firstFile = Directory.GetFiles(tempDir, Constants.CpcDiskExtensionPattern, SearchOption.TopDirectoryOnly).FirstOrDefault();
                 if (firstFile == null)
                     return;
+#if NET6_0_OR_GREATER
                 psi.ArgumentList.Add(firstFile);
+#else
+                psi.Arguments = firstFile;
+#endif
                 psi.WorkingDirectory = emulatorPath;
             }
 
