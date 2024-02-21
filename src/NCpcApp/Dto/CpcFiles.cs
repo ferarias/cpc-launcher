@@ -11,7 +11,7 @@ namespace CpcLauncher.Dto
             }
 
             var di = new DirectoryInfo(path);
-            foreach (var fi in di.GetFiles("*.dsk").Union(di.GetFiles("*.zip")))
+            foreach (var fi in (di.GetFiles("*.dsk").Union(di.GetFiles("*.zip"))).OrderBy(fi => fi.Name))
             {
                 if(fi.Extension.Equals(".dsk", StringComparison.InvariantCultureIgnoreCase))
                 {

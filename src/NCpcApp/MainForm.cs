@@ -126,13 +126,7 @@ namespace CpcLauncher
                     pbxGameCover.Image = null;
                 }
                 tbGameDetails.Clear();
-                tbGameDetails.Lines = [
-                    "Press:",
-                    "* Alt+F4 to exit game",
-                    "* Alt+Enter to toggle window and fullscreen modes",
-                    "",
-                    "Joystick: External joystick or numeric keypad"
-                    ];
+                tbGameDetails.Lines = ["TO DO:"];
             }
             lvGameList.Focus();
         }
