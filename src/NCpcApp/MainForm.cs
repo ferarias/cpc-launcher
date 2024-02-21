@@ -1,50 +1,28 @@
 using System.Diagnostics;
+using System.Globalization;
 using System.IO.Compression;
-using System.Xml.Serialization;
-
-using CpcLauncher.Dto;
 
 namespace CpcLauncher
 {
     public partial class MainForm : Form
     {
-        private GameList? _gamelist;
+        private readonly CpcGamesRepository _repository = new();
 
-        public MainForm()
-        {
-            InitializeComponent();
-        }
+        public MainForm() => InitializeComponent();
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            ReadGames();
-            toolStripStatusLabel1.Text = Properties.Settings.Default.DisksPath;
-            lvGameList.Focus();
-        }
+        private void MainForm_Load(object sender, EventArgs e) => ReadGames();
 
-        private void BtnLaunchClick(object sender, EventArgs e)
-        {
-            LaunchGame();
-        }
+        private void BtnReloadClick(object sender, EventArgs e) => ReadGames();
 
-        private void LvGameListDoubleClick(object sender, EventArgs e)
-        {
-            LaunchGame();
-        }
+        private void LvGameListSelectedIndexChanged(object sender, EventArgs e) => RenderGameDetails();
 
-        private void LvGameListSelectedIndexChanged(object sender, EventArgs e)
-        {
-            RenderGameDetails();
-        }
+        private void LvGameListDoubleClick(object sender, EventArgs e) => LaunchGame();
 
-        private void BtnReloadClick(object sender, EventArgs e)
-        {
-            ReadGames();
-        }
+        private void BtnLaunchClick(object sender, EventArgs e) => LaunchGame();
 
-        private void LvGameListKeyPress(object sender, KeyPressEventArgs e)
+        private void LvGameListKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyChar == '\r')
+            if (e.KeyCode == Keys.Enter)
             {
                 LaunchGame();
             }
@@ -52,61 +30,20 @@ namespace CpcLauncher
 
         private void ReadGames()
         {
-            var disksPath = Properties.Settings.Default.DisksPath;
+            var rootFolder = Properties.Settings.Default.DisksPath;
+            toolStripStatusLabel1.Text = rootFolder;
 
-            // Read the gamelist.xml
-            var gameListFile = Path.Combine(disksPath, "gamelist.xml");
-            if (File.Exists(gameListFile))
-            {
-                var serializer = new XmlSerializer(typeof(GameList));
-                using var reader = new StreamReader(gameListFile);
-                _gamelist = serializer.Deserialize(reader) as GameList;
-            }
-
-            // Read the actual files
-            var fileList = CpcFilesReader.ReadFromDirectory(disksPath);
-            if (fileList.Count == 0)
-            {
-                MessageBox.Show("No files in " + disksPath);
-                return;
-            }
-
-            // Match gameslist with actual files
-            var gamesInGamesListNotFoundInDisk = new List<Game>();
-            var gamesMatching = new List<Game>();
-            if (_gamelist != null)
-            {
-                foreach (var gameListEntry in _gamelist.Games)
-                {
-                    string gamePath = gameListEntry.Path;
-                    if (!File.Exists(gamePath))
-                    {
-                        gamePath = Path.Combine(disksPath, gameListEntry.Path);
-                    }
-                    if (!File.Exists(gamePath))
-                    {
-                        gamesInGamesListNotFoundInDisk.Add(gameListEntry);
-                    }
-                    else
-                    {
-                        if(fileList.Any(f => f.FullName == Path.GetFullPath(gamePath)))
-                        {
-                            gameListEntry.Path = Path.GetFullPath(gamePath);
-                            gamesMatching.Add(gameListEntry);
-                        }
-                    }
-                }
-            }
+            _repository.Load(rootFolder);
 
             lvGameList.Items.Clear();
-            foreach (var game in gamesMatching)
+            foreach (var game in _repository.Games)
             {
                 var listViewItem = new ListViewItem(game.Name);
                 listViewItem.SubItems.Add(game.Path);
-                listViewItem.SubItems.Add(Path.GetExtension(game.Path)[^3..]);
                 lvGameList.Items.Add(listViewItem);
             }
             lvGameList.SelectedIndices.Add(0);
+            lvGameList.Focus();
         }
 
         private void RenderGameDetails()
@@ -121,26 +58,46 @@ namespace CpcLauncher
                 pbxGameCover.Image = null;
 
                 string imagePath = string.Empty;
-                var gameListEntry = _gamelist?.Games.Find(g => g.Name.Equals(game, StringComparison.CurrentCultureIgnoreCase));
+                string marqueePath = string.Empty;
+                var gameListEntry = _repository.Games.Find(g => g.Name.Equals(game, StringComparison.CurrentCultureIgnoreCase));
                 if (gameListEntry != null)
                 {
                     imagePath = gameListEntry.Image;
-                    if (!File.Exists(imagePath))
-                    {
-                        imagePath = Path.Combine(disksPath, gameListEntry.Image);
-                    }
+                    marqueePath = gameListEntry.Marquee;
                     tbGameDetails.Lines = gameListEntry.Description?.Split('\n');
+                    textBoxReleaseDate.Text = !string.IsNullOrWhiteSpace(gameListEntry.Releasedate) 
+                        ? DateTime.ParseExact(gameListEntry.Releasedate, "yyyyMMddTHHmmss", null).Year.ToString()
+                        : "N/A";
+                    textBoxDeveloper.Text = gameListEntry.Developer;
+                    textBoxPublisher.Text = gameListEntry.Publisher;
+                    textBoxGenre.Lines = gameListEntry.Genre.Split(',').Select(x => x.Trim()).ToArray();
                 }
                 else
                 {
                     var coversPath = Properties.Settings.Default.CoversPath;
                     imagePath = Path.Combine(coversPath, $"{game}.png");
                     tbGameDetails.Lines = ["N/A"];
+                    textBoxReleaseDate.Text = string.Empty;
+                    textBoxDeveloper.Text = string.Empty;
+                    textBoxPublisher.Text = string.Empty;
+                    textBoxGenre.Text = string.Empty;
                 }
 
                 if (File.Exists(imagePath))
                 {
                     pbxGameCover.Load(imagePath);
+                }
+                else
+                {
+                    pbxGameCover.Image = null;
+                }
+                if (File.Exists(marqueePath))
+                {
+                    pictureBoxMarquee.Load(marqueePath);
+                }
+                else
+                {
+                    pictureBoxMarquee.Image = null;
                 }
             }
             lvGameList.Focus();
@@ -155,21 +112,21 @@ namespace CpcLauncher
             var selectedItem = lvGameList.Items[lvGameList.SelectedIndices[0]];
             string gameName = selectedItem.Text;
             var gamePath = selectedItem.SubItems[1].Text;
-            var gameExtension = selectedItem.SubItems[2].Text;
+            var gameExtension = Path.GetExtension(gamePath);
 
             var psi = new ProcessStartInfo(emulatorExe);
 
-            if (gameExtension.Equals("dsk", StringComparison.InvariantCultureIgnoreCase))
+            if (gameExtension.Equals(Constants.CpcDiskExtension, StringComparison.InvariantCultureIgnoreCase))
             {
                 psi.ArgumentList.Add(gamePath);
                 psi.WorkingDirectory = emulatorPath;
             }
 
-            if (gameExtension.Equals("zip"))
+            if (gameExtension.Equals(Constants.ZippedDiskExtension))
             {
                 var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
                 ZipFile.ExtractToDirectory(gamePath, tempDir);
-                var firstFile = Directory.GetFiles(tempDir, "*.dsk", SearchOption.TopDirectoryOnly).FirstOrDefault();
+                var firstFile = Directory.GetFiles(tempDir, Constants.CpcDiskExtensionPattern, SearchOption.TopDirectoryOnly).FirstOrDefault();
                 if (firstFile == null)
                     return;
                 psi.ArgumentList.Add(firstFile);
