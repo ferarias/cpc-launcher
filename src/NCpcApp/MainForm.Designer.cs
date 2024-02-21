@@ -28,129 +28,70 @@ namespace CpcLauncher
         /// </summary>
         private void InitializeComponent()
         {
-            btnAbout = new Button();
-            btnReload = new Button();
-            btnLaunch = new Button();
+            statusStrip1 = new StatusStrip();
+            toolStripStatusLabel1 = new ToolStripStatusLabel();
+            toolStripProgressBar1 = new ToolStripProgressBar();
+            toolStripContainer1 = new ToolStripContainer();
+            splitContainer1 = new SplitContainer();
             lvGameList = new ListView();
             columnHeaderName = new ColumnHeader();
-            columnHeaderDirectory = new ColumnHeader();
-            columnHeaderExtension = new ColumnHeader();
-            lblGameDetails = new Label();
+            columnHeaderPath = new ColumnHeader();
+            columnHeaderType = new ColumnHeader();
             lblListHeader = new Label();
-            pbxGameCover = new PictureBox();
-            cbFullscreen = new CheckBox();
-            splitContainer1 = new SplitContainer();
             tbGameDetails = new TextBox();
-            ((System.ComponentModel.ISupportInitialize)pbxGameCover).BeginInit();
+            lblGameDetails = new Label();
+            pbxGameCover = new PictureBox();
+            btnLaunch = new Button();
+            btnReload = new Button();
+            statusStrip1.SuspendLayout();
+            toolStripContainer1.BottomToolStripPanel.SuspendLayout();
+            toolStripContainer1.ContentPanel.SuspendLayout();
+            toolStripContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbxGameCover).BeginInit();
             SuspendLayout();
             // 
-            // btnAbout
+            // statusStrip1
             // 
-            btnAbout.Location = new Point(631, 122);
-            btnAbout.Margin = new Padding(2);
-            btnAbout.Name = "btnAbout";
-            btnAbout.Size = new Size(23, 23);
-            btnAbout.TabIndex = 10;
-            btnAbout.Text = "?";
-            btnAbout.UseVisualStyleBackColor = true;
-            btnAbout.Click += BtnAboutClick;
+            statusStrip1.Dock = DockStyle.None;
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripProgressBar1 });
+            statusStrip1.Location = new Point(0, 0);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(1265, 22);
+            statusStrip1.TabIndex = 7;
+            statusStrip1.Text = "statusStrip1";
             // 
-            // btnReload
+            // toolStripStatusLabel1
             // 
-            btnReload.Location = new Point(568, 95);
-            btnReload.Margin = new Padding(2);
-            btnReload.Name = "btnReload";
-            btnReload.Size = new Size(86, 23);
-            btnReload.TabIndex = 9;
-            btnReload.Text = "Refresh";
-            btnReload.UseVisualStyleBackColor = true;
-            btnReload.Click += BtnReloadClick;
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(118, 17);
+            toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // btnLaunch
+            // toolStripProgressBar1
             // 
-            btnLaunch.Location = new Point(586, 12);
-            btnLaunch.Margin = new Padding(2);
-            btnLaunch.Name = "btnLaunch";
-            btnLaunch.Size = new Size(68, 37);
-            btnLaunch.TabIndex = 8;
-            btnLaunch.Text = "Launch!\r\n";
-            btnLaunch.UseVisualStyleBackColor = true;
-            btnLaunch.Click += BtnLaunchClick;
+            toolStripProgressBar1.Name = "toolStripProgressBar1";
+            toolStripProgressBar1.Size = new Size(100, 16);
             // 
-            // lvGameList
+            // toolStripContainer1
             // 
-            lvGameList.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderDirectory, columnHeaderExtension });
-            lvGameList.Dock = DockStyle.Fill;
-            lvGameList.GridLines = true;
-            lvGameList.Location = new Point(0, 0);
-            lvGameList.Margin = new Padding(2);
-            lvGameList.MultiSelect = false;
-            lvGameList.Name = "lvGameList";
-            lvGameList.Size = new Size(595, 642);
-            lvGameList.TabIndex = 5;
-            lvGameList.UseCompatibleStateImageBehavior = false;
-            lvGameList.View = View.Details;
-            lvGameList.SelectedIndexChanged += LvGameListSelectedIndexChanged;
-            lvGameList.DoubleClick += LvGameListDoubleClick;
-            lvGameList.KeyPress += LvGameListKeyPress;
             // 
-            // columnHeaderName
+            // toolStripContainer1.BottomToolStripPanel
             // 
-            columnHeaderName.Text = "Name";
-            columnHeaderName.Width = 250;
+            toolStripContainer1.BottomToolStripPanel.Controls.Add(statusStrip1);
             // 
-            // columnHeaderDirectory
+            // toolStripContainer1.ContentPanel
             // 
-            columnHeaderDirectory.Text = "Directory";
-            columnHeaderDirectory.Width = 250;
-            // 
-            // columnHeaderExtension
-            // 
-            columnHeaderExtension.Text = "Extension";
-            columnHeaderExtension.Width = 64;
-            // 
-            // lblGameDetails
-            // 
-            lblGameDetails.Location = new Point(14, 9);
-            lblGameDetails.Margin = new Padding(2, 0, 2, 0);
-            lblGameDetails.Name = "lblGameDetails";
-            lblGameDetails.Size = new Size(259, 22);
-            lblGameDetails.TabIndex = 7;
-            lblGameDetails.Text = "Game details\r\n";
-            // 
-            // lblListHeader
-            // 
-            lblListHeader.Location = new Point(11, 0);
-            lblListHeader.Margin = new Padding(2, 0, 2, 0);
-            lblListHeader.Name = "lblListHeader";
-            lblListHeader.Size = new Size(212, 22);
-            lblListHeader.TabIndex = 6;
-            lblListHeader.Text = "List of games";
-            // 
-            // pbxGameCover
-            // 
-            pbxGameCover.BackColor = Color.Black;
-            pbxGameCover.Location = new Point(14, 150);
-            pbxGameCover.Name = "pbxGameCover";
-            pbxGameCover.Size = new Size(640, 480);
-            pbxGameCover.TabIndex = 0;
-            pbxGameCover.TabStop = false;
-            // 
-            // cbFullscreen
-            // 
-            cbFullscreen.AutoSize = true;
-            cbFullscreen.CheckAlign = ContentAlignment.MiddleRight;
-            cbFullscreen.Location = new Point(535, 53);
-            cbFullscreen.Margin = new Padding(2);
-            cbFullscreen.Name = "cbFullscreen";
-            cbFullscreen.Size = new Size(119, 19);
-            cbFullscreen.TabIndex = 11;
-            cbFullscreen.Text = "Launch fullscreen";
-            cbFullscreen.UseVisualStyleBackColor = true;
+            toolStripContainer1.ContentPanel.Controls.Add(splitContainer1);
+            toolStripContainer1.ContentPanel.Size = new Size(1265, 595);
+            toolStripContainer1.Dock = DockStyle.Fill;
+            toolStripContainer1.Location = new Point(0, 0);
+            toolStripContainer1.Name = "toolStripContainer1";
+            toolStripContainer1.Size = new Size(1265, 642);
+            toolStripContainer1.TabIndex = 13;
+            toolStripContainer1.Text = "toolStripContainer1";
             // 
             // splitContainer1
             // 
@@ -169,54 +110,142 @@ namespace CpcLauncher
             splitContainer1.Panel2.Controls.Add(tbGameDetails);
             splitContainer1.Panel2.Controls.Add(lblGameDetails);
             splitContainer1.Panel2.Controls.Add(pbxGameCover);
-            splitContainer1.Panel2.Controls.Add(btnAbout);
             splitContainer1.Panel2.Controls.Add(btnLaunch);
             splitContainer1.Panel2.Controls.Add(btnReload);
-            splitContainer1.Panel2.Controls.Add(cbFullscreen);
-            splitContainer1.Size = new Size(1265, 642);
-            splitContainer1.SplitterDistance = 595;
-            splitContainer1.TabIndex = 12;
+            splitContainer1.Size = new Size(1265, 595);
+            splitContainer1.SplitterDistance = 600;
+            splitContainer1.TabIndex = 13;
+            // 
+            // lvGameList
+            // 
+            lvGameList.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderPath, columnHeaderType });
+            lvGameList.Dock = DockStyle.Fill;
+            lvGameList.GridLines = true;
+            lvGameList.Location = new Point(0, 0);
+            lvGameList.Margin = new Padding(2);
+            lvGameList.MultiSelect = false;
+            lvGameList.Name = "lvGameList";
+            lvGameList.Size = new Size(600, 595);
+            lvGameList.TabIndex = 5;
+            lvGameList.UseCompatibleStateImageBehavior = false;
+            lvGameList.View = View.Details;
+            lvGameList.SelectedIndexChanged += LvGameListSelectedIndexChanged;
+            lvGameList.DoubleClick += LvGameListDoubleClick;
+            lvGameList.KeyPress += LvGameListKeyPress;
+            // 
+            // columnHeaderName
+            // 
+            columnHeaderName.Text = "Name";
+            columnHeaderName.Width = 250;
+            // 
+            // columnHeaderPath
+            // 
+            columnHeaderPath.Text = "Directory";
+            columnHeaderPath.Width = 250;
+            // 
+            // columnHeaderType
+            // 
+            columnHeaderType.Text = "Extension";
+            columnHeaderType.Width = 64;
+            // 
+            // lblListHeader
+            // 
+            lblListHeader.Location = new Point(11, 0);
+            lblListHeader.Margin = new Padding(2, 0, 2, 0);
+            lblListHeader.Name = "lblListHeader";
+            lblListHeader.Size = new Size(212, 22);
+            lblListHeader.TabIndex = 6;
+            lblListHeader.Text = "List of games";
             // 
             // tbGameDetails
             // 
-            tbGameDetails.Location = new Point(14, 34);
+            tbGameDetails.Location = new Point(14, 27);
             tbGameDetails.Multiline = true;
             tbGameDetails.Name = "tbGameDetails";
-            tbGameDetails.Size = new Size(516, 103);
+            tbGameDetails.Size = new Size(516, 110);
             tbGameDetails.TabIndex = 12;
+            // 
+            // lblGameDetails
+            // 
+            lblGameDetails.Location = new Point(14, 9);
+            lblGameDetails.Margin = new Padding(2, 0, 2, 0);
+            lblGameDetails.Name = "lblGameDetails";
+            lblGameDetails.Size = new Size(259, 22);
+            lblGameDetails.TabIndex = 7;
+            lblGameDetails.Text = "Game details\r\n";
+            // 
+            // pbxGameCover
+            // 
+            pbxGameCover.BackColor = Color.Black;
+            pbxGameCover.Location = new Point(14, 150);
+            pbxGameCover.Name = "pbxGameCover";
+            pbxGameCover.Size = new Size(640, 480);
+            pbxGameCover.TabIndex = 0;
+            pbxGameCover.TabStop = false;
+            // 
+            // btnLaunch
+            // 
+            btnLaunch.Location = new Point(568, 12);
+            btnLaunch.Margin = new Padding(2);
+            btnLaunch.Name = "btnLaunch";
+            btnLaunch.Size = new Size(86, 37);
+            btnLaunch.TabIndex = 8;
+            btnLaunch.Text = "Launch!\r\n";
+            btnLaunch.UseVisualStyleBackColor = true;
+            btnLaunch.Click += BtnLaunchClick;
+            // 
+            // btnReload
+            // 
+            btnReload.Location = new Point(568, 114);
+            btnReload.Margin = new Padding(2);
+            btnReload.Name = "btnReload";
+            btnReload.Size = new Size(86, 23);
+            btnReload.TabIndex = 9;
+            btnReload.Text = "Refresh";
+            btnReload.UseVisualStyleBackColor = true;
+            btnReload.Click += BtnReloadClick;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1265, 642);
-            Controls.Add(splitContainer1);
+            Controls.Add(toolStripContainer1);
             Margin = new Padding(2);
             Name = "MainForm";
             Text = "CPC Launcher";
             Load += MainForm_Load;
-            ((System.ComponentModel.ISupportInitialize)pbxGameCover).EndInit();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
+            toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
+            toolStripContainer1.BottomToolStripPanel.PerformLayout();
+            toolStripContainer1.ContentPanel.ResumeLayout(false);
+            toolStripContainer1.ResumeLayout(false);
+            toolStripContainer1.PerformLayout();
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
             splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pbxGameCover).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-        private Button btnAbout;
-        private Button btnReload;
-        private Button btnLaunch;
-        private ListView lvGameList;
-        private Label lblGameDetails;
-        private Label lblListHeader;
-        private PictureBox pbxGameCover;
-        private CheckBox cbFullscreen;
-        private ColumnHeader columnHeaderName;
-        private ColumnHeader columnHeaderDirectory;
-        private ColumnHeader columnHeaderExtension;
+        private StatusStrip statusStrip1;
+        private ToolStripContainer toolStripContainer1;
         private SplitContainer splitContainer1;
+        private ListView lvGameList;
+        private ColumnHeader columnHeaderName;
+        private ColumnHeader columnHeaderPath;
+        private ColumnHeader columnHeaderType;
+        private Label lblListHeader;
         private TextBox tbGameDetails;
+        private Label lblGameDetails;
+        private PictureBox pbxGameCover;
+        private Button btnLaunch;
+        private Button btnReload;
+        private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripProgressBar toolStripProgressBar1;
     }
 }
