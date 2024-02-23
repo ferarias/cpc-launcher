@@ -1,26 +1,28 @@
 using System.Diagnostics;
-using System.Globalization;
 using System.IO.Compression;
 
-namespace CpcLauncher
+using Emu.Common;
+
+namespace Emu.LauncherApp
 {
     public partial class MainForm : Form
     {
-        private readonly CpcGamesRepository _repository = new();
+        private readonly Dictionary<Platform, GameSystem> _systems = Defaults.DefaultSystems;
+        private readonly Dictionary<Platform, GamesCollection> _games = [];
 
         public MainForm() => InitializeComponent();
 
         private void MainForm_Load(object sender, EventArgs e) => ReadGames();
 
-        private void BtnReloadClick(object sender, EventArgs e) => ReadGames();
+        private void btnReload_Click(object sender, EventArgs e) => ReadGames();
 
-        private void LvGameListSelectedIndexChanged(object sender, EventArgs e) => RenderGameDetails();
+        private void lvGameList_SelectedIndexChanged(object sender, EventArgs e) => RenderGameDetails();
 
-        private void LvGameListDoubleClick(object sender, EventArgs e) => LaunchGame();
+        private void lvGameList_MouseDoubleClick(object sender, MouseEventArgs e) => LaunchGame();
 
-        private void BtnLaunchClick(object sender, EventArgs e) => LaunchGame();
+        private void btnLaunch_Click(object sender, EventArgs e) => LaunchGame();
 
-        private void LvGameListKeyDown(object sender, KeyEventArgs e)
+        private void lvGameList_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -30,36 +32,47 @@ namespace CpcLauncher
 
         private void ReadGames()
         {
-            var rootFolder = Properties.Settings.Default.DisksPath;
-            toolStripStatusLabel1.Text = rootFolder;
+            _games.Clear();
+            foreach (var system in _systems)
+            {
+                DirectoryInfo rootFolder = system.Value.GamesPath ?? throw new NullReferenceException("Games path cannot be null");
+                toolStripStatusLabel1.Text = rootFolder.FullName;
 
-            _repository.Load(rootFolder);
+                var gamesRepo = new GamesCollection();
+                gamesRepo.Load(rootFolder, system.Value.Emulators.SelectMany(x => x.Features.AllowedExtensions));
+                _games.Add(system.Key, gamesRepo);
+            }
 
             lvGameList.Items.Clear();
-            foreach (var game in _repository.Games)
+            foreach (var platformGames in _games)
             {
-                var listViewItem = new ListViewItem(game.Name);
-                listViewItem.SubItems.Add(game.Path);
-                lvGameList.Items.Add(listViewItem);
+                foreach (var game in platformGames.Value.Games)
+                {
+                    var listViewItem = new ListViewItem(game.Name);
+                    listViewItem.SubItems.Add(platformGames.Key.ToString());
+                    listViewItem.SubItems.Add(game.Path);
+                    lvGameList.Items.Add(listViewItem);
+                }
             }
+
             lvGameList.SelectedIndices.Add(0);
             lvGameList.Focus();
         }
 
         private void RenderGameDetails()
         {
-            var disksPath = Properties.Settings.Default.DisksPath;
-
             if (lvGameList.SelectedIndices.Count > 0)
             {
-                string game = lvGameList.Items[lvGameList.SelectedIndices[0]].Text;
+                var selectedItem = lvGameList.Items[lvGameList.SelectedIndices[0]];
+                string gameName = selectedItem.Text;
+                var platform = (Platform)Enum.Parse(typeof(Platform), selectedItem.SubItems[1].Text);
 
                 tbGameDetails.Clear();
                 pbxGameCover.Image = null;
 
                 string imagePath = string.Empty;
                 string marqueePath = string.Empty;
-                var gameListEntry = _repository.Games.Find(g => g.Name.Equals(game, StringComparison.CurrentCultureIgnoreCase));
+                var gameListEntry = _games[platform].Games.Find(g => g.Name.Equals(gameName, StringComparison.CurrentCultureIgnoreCase));
                 if (gameListEntry != null)
                 {
                     imagePath = gameListEntry.Image;
@@ -74,8 +87,8 @@ namespace CpcLauncher
                 }
                 else
                 {
-                    var coversPath = Properties.Settings.Default.CoversPath;
-                    imagePath = Path.Combine(coversPath, $"{game}.png");
+                    var coversPath = Properties.Settings.Default.CpcScreenshots;
+                    imagePath = Path.Combine(coversPath, $"{gameName}.png");
                     tbGameDetails.Lines = ["N/A"];
                     textBoxReleaseDate.Text = string.Empty;
                     textBoxDeveloper.Text = string.Empty;
@@ -105,32 +118,24 @@ namespace CpcLauncher
 
         private void LaunchGame()
         {
-            // CPCEC
-            var emulatorPath = Properties.Settings.Default.EmulatorPath;
-            string emulatorExe = Path.GetFullPath(Path.Combine(emulatorPath, "CPCEC.EXE"));
-
             var selectedItem = lvGameList.Items[lvGameList.SelectedIndices[0]];
             string gameName = selectedItem.Text;
-            var gamePath = selectedItem.SubItems[1].Text;
+            var platform = (Platform)Enum.Parse(typeof(Platform), selectedItem.SubItems[1].Text);
+            var gamePath = selectedItem.SubItems[2].Text;
             var gameExtension = Path.GetExtension(gamePath);
+            var emulator = _systems[platform].Emulators.First();
+            var emulatorExe = emulator.EmulatorPath ?? throw new ApplicationException("Emulator path not set!");
 
-            var psi = new ProcessStartInfo(emulatorExe);
-
-            if (gameExtension.Equals(Constants.CpcDiskExtension, StringComparison.InvariantCultureIgnoreCase))
+            var psi = new ProcessStartInfo(emulatorExe.FullName)
             {
-#if NET6_0_OR_GREATER
-                psi.ArgumentList.Add(gamePath);
-#else
-                psi.Arguments = $"\"{gamePath}\"";
-#endif
-                psi.WorkingDirectory = emulatorPath;
-            }
+                WorkingDirectory = emulatorExe.DirectoryName
+            };
 
-            if (gameExtension.Equals(Constants.ZippedDiskExtension))
+            if (gameExtension.Equals(Consts.ZippedDiskExtension))
             {
                 var tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
                 ZipFile.ExtractToDirectory(gamePath, tempDir);
-                var firstFile = Directory.GetFiles(tempDir, Constants.CpcDiskExtensionPattern, SearchOption.TopDirectoryOnly).FirstOrDefault();
+                var firstFile = Array.Find(Directory.GetFiles(tempDir), f => emulator.Features.AllowedExtensions.Contains(Path.GetExtension(f), StringComparer.InvariantCultureIgnoreCase));
                 if (firstFile == null)
                     return;
 #if NET6_0_OR_GREATER
@@ -138,7 +143,15 @@ namespace CpcLauncher
 #else
                 psi.Arguments = $"\"{firstFile}\"";
 #endif
-                psi.WorkingDirectory = emulatorPath;
+            }
+
+            if (emulator.Features.AllowedExtensions.Contains(gameExtension, StringComparer.InvariantCultureIgnoreCase))
+            {
+#if NET6_0_OR_GREATER
+                psi.ArgumentList.Add(gamePath);
+#else
+                psi.Arguments = $"\"{gamePath}\"";
+#endif
             }
 
             var process = Process.Start(psi);

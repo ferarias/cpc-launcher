@@ -1,8 +1,9 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace CpcLauncher.Dto
+namespace Emu.Common.Dto
 {
     public class Rating : IXmlSerializable
     {
@@ -19,7 +20,7 @@ namespace CpcLauncher.Dto
             {
                 _rating = reader.ReadElementContentAsDecimal();
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 _rating = null;
             }

@@ -1,10 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 
-using CpcLauncher.Dto;
+using Emu.Common.Dto;
 
-namespace CpcLauncher
+namespace Emu.Common
 {
-    public class CpcGamesRepository
+    public class GamesCollection
     {
         private List<Game> _gameList = [];
         private List<FileInfo> _fileList = [];
@@ -12,35 +16,30 @@ namespace CpcLauncher
         public List<Game> Games { get; } = [];
         public List<Game> GamesNotMatching { get; private set; } = [];
 
-        public void Load(string rootFolder)
+        public void Load(DirectoryInfo rootFolder, IEnumerable<string> allowedExtensions)
         {
             // Read the gamelist.xml
             _gameList = ReadFromGamesListXml(rootFolder);
 
             // Read the actual files
-            _fileList = ReadFromDirectory(rootFolder);
+            _fileList = ReadFromDirectory(rootFolder, allowedExtensions);
             if (_fileList.Count == 0)
             {
-                MessageBox.Show("No files in " + rootFolder);
+                return;
             }
 
             // Match gameslist with actual files
             CombineGames();
         }
 
-        public static List<FileInfo> ReadFromDirectory(string path)
+        public static List<FileInfo> ReadFromDirectory(DirectoryInfo rootFolder, IEnumerable<string> allowedExtensions)
         {
             var list = new List<FileInfo>();
-            if (Directory.Exists(path))
+            if (rootFolder.Exists)
             {
-                var di = new DirectoryInfo(path);
-                foreach (var fi in di.GetFiles())
+                foreach (var fi in rootFolder.GetFiles())
                 {
-                    if (fi.Extension.Equals(".dsk", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        list.Add(fi);
-                    }
-                    if (fi.Extension.Equals(".zip", StringComparison.InvariantCultureIgnoreCase))
+                    if (allowedExtensions.Contains(fi.Extension, StringComparer.InvariantCultureIgnoreCase) || fi.Extension.Equals(".zip", StringComparison.InvariantCultureIgnoreCase))
                     {
                         list.Add(fi);
                     }
@@ -48,15 +47,15 @@ namespace CpcLauncher
             }
             return list;
         }
-        public static List<Game> ReadFromGamesListXml(string rootFolder)
+        public static List<Game> ReadFromGamesListXml(DirectoryInfo rootFolder)
         {
-            var gameListFile = Path.Combine(rootFolder, Constants.GameListFileName);
+            var gameListFile = new FileInfo(Path.Combine(rootFolder.FullName, Consts.GameListFileName));
 
             var games = new List<Game>();
-            if (File.Exists(gameListFile))
+            if (gameListFile.Exists)
             {
                 var serializer = new XmlSerializer(typeof(GameList));
-                using var reader = new StreamReader(gameListFile);
+                using var reader = new StreamReader(gameListFile.FullName);
                 if (serializer.Deserialize(reader) is GameList gameList)
                 {
                     games = gameList.Games;
@@ -67,15 +66,15 @@ namespace CpcLauncher
             foreach (var game in games)
             {
                 var gamePath = !File.Exists(game.Path)
-                    ? Path.Combine(rootFolder, game.Path)
+                    ? Path.Combine(rootFolder.FullName, game.Path)
                     : game.Path;
                 game.Path = Path.GetFullPath(gamePath);
                 var imagePath = !File.Exists(game.Image)
-                                    ? Path.Combine(rootFolder, game.Image)
+                                    ? Path.Combine(rootFolder.FullName, game.Image)
                                     : game.Image;
                 game.Image = Path.GetFullPath(imagePath);
                 var marqueePath = !File.Exists(game.Marquee)
-                                    ? Path.Combine(rootFolder, game.Marquee)
+                                    ? Path.Combine(rootFolder.FullName, game.Marquee)
                                     : game.Marquee;
                 game.Marquee = Path.GetFullPath(marqueePath);
             }
@@ -106,5 +105,4 @@ namespace CpcLauncher
             }
         }
     }
-
 }

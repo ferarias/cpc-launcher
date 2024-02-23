@@ -1,4 +1,4 @@
-namespace CpcLauncher
+namespace Emu.LauncherApp
 {
     internal static class Program
     {
