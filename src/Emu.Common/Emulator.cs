@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace CpcLauncher
+namespace Emu.Common
 {
     public class Emulator
     {

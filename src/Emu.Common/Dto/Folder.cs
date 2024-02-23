@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace CpcLauncher.Dto
+namespace Emu.Common.Dto
 {
     [Serializable]
     [XmlType(AnonymousType = true)]

@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using System.IO.Compression;
 
-namespace CpcLauncher
+using Emu.Common;
+
+namespace Emu.LauncherApp
 {
     public partial class MainForm : Form
     {
@@ -47,8 +49,8 @@ namespace CpcLauncher
                 foreach (var game in platformGames.Value.Games)
                 {
                     var listViewItem = new ListViewItem(game.Name);
-                    listViewItem.SubItems.Add(game.Path);
                     listViewItem.SubItems.Add(platformGames.Key.ToString());
+                    listViewItem.SubItems.Add(game.Path);
                     lvGameList.Items.Add(listViewItem);
                 }
             }
@@ -63,7 +65,7 @@ namespace CpcLauncher
             {
                 var selectedItem = lvGameList.Items[lvGameList.SelectedIndices[0]];
                 string gameName = selectedItem.Text;
-                var platform = (Platform)Enum.Parse(typeof(Platform), selectedItem.SubItems[2].Text);
+                var platform = (Platform)Enum.Parse(typeof(Platform), selectedItem.SubItems[1].Text);
 
                 tbGameDetails.Clear();
                 pbxGameCover.Image = null;
@@ -118,9 +120,9 @@ namespace CpcLauncher
         {
             var selectedItem = lvGameList.Items[lvGameList.SelectedIndices[0]];
             string gameName = selectedItem.Text;
-            var gamePath = selectedItem.SubItems[1].Text;
+            var platform = (Platform)Enum.Parse(typeof(Platform), selectedItem.SubItems[1].Text);
+            var gamePath = selectedItem.SubItems[2].Text;
             var gameExtension = Path.GetExtension(gamePath);
-            var platform = (Platform)Enum.Parse(typeof(Platform), selectedItem.SubItems[2].Text);
             var emulator = _systems[platform].Emulators.First();
             var emulatorExe = emulator.EmulatorPath ?? throw new ApplicationException("Emulator path not set!");
 

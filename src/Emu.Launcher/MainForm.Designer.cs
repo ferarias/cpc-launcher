@@ -1,4 +1,4 @@
-namespace CpcLauncher
+namespace Emu.LauncherApp
 {
     partial class MainForm
     {
@@ -53,6 +53,7 @@ namespace CpcLauncher
             this.labelPublisher = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.columnHeaderPlatform = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.statusStrip1.SuspendLayout();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -79,7 +80,7 @@ namespace CpcLauncher
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(672, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(869, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -99,11 +100,11 @@ namespace CpcLauncher
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(672, 439);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(869, 439);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(672, 486);
+            this.toolStripContainer1.Size = new System.Drawing.Size(869, 486);
             this.toolStripContainer1.TabIndex = 13;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -126,8 +127,8 @@ namespace CpcLauncher
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(672, 439);
-            this.splitContainer1.SplitterDistance = 205;
+            this.splitContainer1.Size = new System.Drawing.Size(869, 439);
+            this.splitContainer1.SplitterDistance = 403;
             this.splitContainer1.SplitterWidth = 3;
             this.splitContainer1.TabIndex = 13;
             // 
@@ -135,6 +136,7 @@ namespace CpcLauncher
             // 
             this.lvGameList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderName,
+            this.columnHeaderPlatform,
             this.columnHeaderPath});
             this.lvGameList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvGameList.GridLines = true;
@@ -143,7 +145,7 @@ namespace CpcLauncher
             this.lvGameList.Margin = new System.Windows.Forms.Padding(2);
             this.lvGameList.MultiSelect = false;
             this.lvGameList.Name = "lvGameList";
-            this.lvGameList.Size = new System.Drawing.Size(205, 439);
+            this.lvGameList.Size = new System.Drawing.Size(403, 439);
             this.lvGameList.TabIndex = 5;
             this.lvGameList.UseCompatibleStateImageBehavior = false;
             this.lvGameList.View = System.Windows.Forms.View.Details;
@@ -159,7 +161,6 @@ namespace CpcLauncher
             // columnHeaderPath
             // 
             this.columnHeaderPath.Text = "Directory";
-            this.columnHeaderPath.Width = 250;
             // 
             // lblListHeader
             // 
@@ -187,7 +188,7 @@ namespace CpcLauncher
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer2.Size = new System.Drawing.Size(464, 439);
+            this.splitContainer2.Size = new System.Drawing.Size(463, 439);
             this.splitContainer2.SplitterDistance = 294;
             this.splitContainer2.SplitterWidth = 3;
             this.splitContainer2.TabIndex = 19;
@@ -248,7 +249,7 @@ namespace CpcLauncher
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(167, 439);
+            this.groupBox1.Size = new System.Drawing.Size(166, 439);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Details";
@@ -362,11 +363,15 @@ namespace CpcLauncher
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
             // 
+            // columnHeaderPlatform
+            // 
+            this.columnHeaderPlatform.Text = "Platform";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(672, 486);
+            this.ClientSize = new System.Drawing.Size(869, 486);
             this.Controls.Add(this.toolStripContainer1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
@@ -428,5 +433,6 @@ namespace CpcLauncher
         private SplitContainer splitContainer2;
         private ToolStrip toolStrip1;
         private ToolStripComboBox toolStripComboBox1;
+        private ColumnHeader columnHeaderPlatform;
     }
 }

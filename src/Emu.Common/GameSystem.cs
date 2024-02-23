@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace CpcLauncher
+namespace Emu.Common
 {
     public class GameSystem
     {

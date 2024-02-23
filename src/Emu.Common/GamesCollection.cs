@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
-using CpcLauncher.Dto;
+using Emu.Common.Dto;
 
-namespace CpcLauncher
+namespace Emu.Common
 {
     public class GamesCollection
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CpcLauncher
+namespace Emu.Common
 {
     public class EmulatorFeatures
     {

@@ -1,4 +1,4 @@
-﻿namespace CpcLauncher
+﻿namespace Emu.Common
 {
     public enum Platform
     {

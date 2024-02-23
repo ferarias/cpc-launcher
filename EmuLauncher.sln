@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CpcLauncher", "src\NCpcApp\CpcLauncher.csproj", "{6EFB37F9-A744-4206-98FD-508B80035C68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emu.LauncherApp", "src\Emu.Launcher\Emu.Launcher.csproj", "{6EFB37F9-A744-4206-98FD-508B80035C68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emu.Common", "src\Emu.Common\Emu.Common.csproj", "{8826AAFB-18D7-4C0A-9FCA-29AD424A8411}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4792EC9E-3D5C-4983-9234-58DCF2DB91EC}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emu.Common", "src\Emu.Common\Emu.Common.csproj", "{8826AAFB-18D7-4C0A-9FCA-29AD424A8411}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

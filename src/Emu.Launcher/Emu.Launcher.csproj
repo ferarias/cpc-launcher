@@ -2,11 +2,12 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net481</TargetFramework>
+    <TargetFrameworks>net481;net8.0-windows7.0</TargetFrameworks>
       <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <StartupObject>Emu.LauncherApp.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

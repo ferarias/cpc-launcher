@@ -1,4 +1,4 @@
-﻿namespace CpcLauncher
+﻿namespace Emu.Common
 {
     public static class Consts
     {
@@ -6,6 +6,6 @@
 
         public static readonly string ZippedDiskExtension = ".zip";
 
-        
+
     }
 }

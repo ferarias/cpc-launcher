@@ -1,4 +1,6 @@
-﻿namespace CpcLauncher
+﻿using Emu.Common;
+
+namespace Emu.LauncherApp
 {
     internal static class Defaults
     {
@@ -41,6 +43,5 @@
                 }
             }
         };
-
     }
 }
