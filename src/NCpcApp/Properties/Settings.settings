@@ -2,14 +2,29 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CpcLauncher.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="EmulatorPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">D:\emu\EmulationStation\.emulationstation\systems\cpcec</Value>
+    <Setting Name="CpcecPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\emu\EmulationStation\.emulationstation\systems\cpcec\CPCEC.EXE</Value>
     </Setting>
-    <Setting Name="CoversPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="DisksPath" Type="System.String" Scope="Application">
+    <Setting Name="CpcGames" Type="System.String" Scope="Application">
       <Value Profile="(Default)">V:\roms\amstradcpc</Value>
+    </Setting>
+    <Setting Name="ZxGames" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">V:\roms\zxspectrum</Value>
+    </Setting>
+    <Setting Name="CpcScreenshots" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.\media\screenshots</Value>
+    </Setting>
+    <Setting Name="ZxScreenshots" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.\media\screenshots</Value>
+    </Setting>
+    <Setting Name="CpcMarquees" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.\media\marquees</Value>
+    </Setting>
+    <Setting Name="ZxMarquees" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.\media\marquees</Value>
+    </Setting>
+    <Setting Name="SpeccyPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\emu\EmulationStation\.emulationstation\systems\speccy\Speccy.exe</Value>
     </Setting>
   </Settings>
 </SettingsFile>

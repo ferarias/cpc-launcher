@@ -25,28 +25,73 @@ namespace CpcLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\emu\\EmulationStation\\.emulationstation\\systems\\cpcec")]
-        public string EmulatorPath {
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\emu\\EmulationStation\\.emulationstation\\systems\\cpcec\\CPCEC.EXE")]
+        public string CpcecPath {
             get {
-                return ((string)(this["EmulatorPath"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string CoversPath {
-            get {
-                return ((string)(this["CoversPath"]));
+                return ((string)(this["CpcecPath"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("V:\\roms\\amstradcpc")]
-        public string DisksPath {
+        public string CpcGames {
             get {
-                return ((string)(this["DisksPath"]));
+                return ((string)(this["CpcGames"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("V:\\roms\\zxspectrum")]
+        public string ZxGames {
+            get {
+                return ((string)(this["ZxGames"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\media\\screenshots")]
+        public string CpcScreenshots {
+            get {
+                return ((string)(this["CpcScreenshots"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\media\\screenshots")]
+        public string ZxScreenshots {
+            get {
+                return ((string)(this["ZxScreenshots"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\media\\marquees")]
+        public string CpcMarquees {
+            get {
+                return ((string)(this["CpcMarquees"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\media\\marquees")]
+        public string ZxMarquees {
+            get {
+                return ((string)(this["ZxMarquees"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\emu\\EmulationStation\\.emulationstation\\systems\\speccy\\Speccy.exe")]
+        public string SpeccyPath {
+            get {
+                return ((string)(this["SpeccyPath"]));
             }
         }
     }
